@@ -2,8 +2,10 @@ package com.adrisoft.comprobador;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Date;
@@ -36,6 +38,13 @@ public class Main {
 			JOptionPane.showMessageDialog(null, "It's a match!!!");
 		}
 	}
+	
+	public static void guardarWeb(String contenido, String titulo) throws IOException{
+		FileWriter fichero = new FileWriter("C:\\Users\\Adrián\\Desktop\\"+titulo+".html");
+		PrintWriter pw = new PrintWriter(fichero);
+		pw.println(contenido);
+		fichero.close();
+	}
 
 	public static void cambia(String contenido) {
 		seguimos = primerContenido.substring(LIMITES[0], LIMITES[1]).equals(contenido.substring(LIMITES[0], LIMITES[1]));
@@ -56,6 +65,7 @@ public class Main {
 		//contenido=contenido.substring(19000, 23000);
 		if (primeraVez) {
 			primerContenido = contenido;
+			guardarWeb(contenido, "Original");
 			primeraVez = false;
 		} else
 			cambia(contenido);
@@ -64,9 +74,10 @@ public class Main {
 		//System.out.println(contenido);
 		if (seguimos)
 			comprobacion();
-		else
+		else{
+			guardarWeb(contenido, "Cambio");
 			sonar();
-
+		}
 	}
 
 	public static void main(String[] args) {
